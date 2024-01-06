@@ -61,7 +61,7 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 							Emoji: discordgo.ComponentEmoji{
 								Name: "🌍",
 							},
-							Label: "Website",
+							Label: "Website (Coming eventually)",
 							Style: discordgo.LinkButton,
 							URL:   globals.DiscordInvite,
 						},
@@ -71,7 +71,7 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 							},
 							Label: "Faith's Instagram",
 							Style: discordgo.LinkButton,
-							URL:   globals.DiscordInvite,
+							URL:   "https://www.instagram.com/faith.art28",
 						},
 					},
 				},
