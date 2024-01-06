@@ -30,6 +30,20 @@ func discordCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Embeds: []*discordgo.MessageEmbed{
 				embed,
 			},
+			Components: []discordgo.MessageComponent{
+				discordgo.ActionsRow{
+					Components: []discordgo.MessageComponent{
+						discordgo.Button{
+							Emoji: discordgo.ComponentEmoji{
+								Name: "✉️",
+							},
+							Label: "Discord Server",
+							Style: discordgo.LinkButton,
+							URL:   globals.DiscordInvite,
+						},
+					},
+				},
+			},
 			Flags: discordgo.MessageFlagsEphemeral,
 		},
 	})

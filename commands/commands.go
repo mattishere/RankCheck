@@ -11,6 +11,7 @@ var (
 	commands = []Command{
 		StatsCommand,
 		DiscordCommand,
+		LinksCommand,
 	}
 )
 
@@ -22,10 +23,11 @@ type Command struct {
 
 func RegisterCommands(s *discordgo.Session) {
 	for _, command := range commands {
-		_, err := s.ApplicationCommandCreate(globals.AppID, "", &command.Command)
+		cmd, err := s.ApplicationCommandCreate(globals.AppID, "", &command.Command)
 		if err != nil {
 			panic(err)
 		}
+		notifs.Background("Registered command /" + cmd.Name)
 	}
 	notifs.System("Commands registered")
 }
