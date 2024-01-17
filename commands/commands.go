@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"RankCheck/globals"
 	"RankCheck/notifs"
+	"os"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -12,6 +12,7 @@ var (
 		StatsCommand,
 		DiscordCommand,
 		LinksCommand,
+		InviteCommand,
 	}
 )
 
@@ -22,8 +23,15 @@ type Command struct {
 }
 
 func RegisterCommands(s *discordgo.Session) {
+	var appId string
+	if os.Getenv("PRODUCTION") == "true" {
+		appId = os.Getenv("APP_ID")
+	} else {
+		appId = os.Getenv("DEV_APP_ID")
+	}
+
 	for _, command := range commands {
-		cmd, err := s.ApplicationCommandCreate(globals.AppID, "", &command.Command)
+		cmd, err := s.ApplicationCommandCreate(appId, "", &command.Command)
 		if err != nil {
 			panic(err)
 		}

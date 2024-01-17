@@ -12,7 +12,15 @@ import (
 )
 
 func StartBot() {
-	s, err := discordgo.New("Bot " + os.Getenv("TOKEN"))
+	var token string
+	if os.Getenv("PRODUCTION") == "true" {
+		token = os.Getenv("TOKEN")
+	} else {
+		token = os.Getenv("DEV_TOKEN")
+		notifs.Warning("Bot is running in development mode")
+	}
+
+	s, err := discordgo.New("Bot " + token)
 	if err != nil {
 		notifs.Error("Error creating Discord session: " + err.Error())
 	}

@@ -38,6 +38,16 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Value:  "Faith is the designer of the RankCheck profile picture and a valued member of the team!\nCheck out her Instagram, but you can also reach her on Discord `@faith.art28`.",
 			Inline: false,
 		},
+		{
+			Name:   "Vote for RankCheck",
+			Value:  "Vote for RankCheck on Top.gg!",
+			Inline: false,
+		},
+		{
+			Name:   "Invite RankCheck",
+			Value:  "Invite RankCheck to your server!",
+			Inline: false,
+		},
 	}
 
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -51,7 +61,7 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 					Components: []discordgo.MessageComponent{
 						discordgo.Button{
 							Emoji: discordgo.ComponentEmoji{
-								Name: "✉️",
+								Name: "🏛️",
 							},
 							Label: "Discord Server",
 							Style: discordgo.LinkButton,
@@ -72,6 +82,22 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 							Label: "Faith's Instagram",
 							Style: discordgo.LinkButton,
 							URL:   "https://www.instagram.com/faith.art28",
+						},
+						discordgo.Button{
+							Emoji: discordgo.ComponentEmoji{
+								Name: "✉️",
+							},
+							Label: "Vote for RankCheck",
+							Style: discordgo.LinkButton,
+							URL:   globals.TopGGURL,
+						},
+						discordgo.Button{
+							Emoji: discordgo.ComponentEmoji{
+								Name: "📨",
+							},
+							Label: "Invite RankCheck",
+							Style: discordgo.LinkButton,
+							URL:   globals.BotInvite,
 						},
 					},
 				},
