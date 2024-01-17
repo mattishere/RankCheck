@@ -164,6 +164,7 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				Inline: true,
 			})
 		}
+
 		embed.Description = stats.Profile.Title
 		if len(fields) == 0 {
 			embed.Description += "\n\nThe player doesn't have any ranks."
