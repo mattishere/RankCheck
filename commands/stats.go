@@ -131,7 +131,6 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	embed.URL = stats.Profile.URL
 	embed.Thumbnail = &discordgo.MessageEmbedThumbnail{URL: stats.Profile.ProfilePicture}
 
-	fields := []*discordgo.MessageEmbedField{}
 	if stats.Profile.IsPrivate {
 		embed.Description = stats.Profile.Title + "\n\n*This player's profile is private.*"
 		s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
@@ -143,35 +142,26 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 		return
 	} else {
-		if roleIsRanked(stats.Ranks.Tank) {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   "Tank",
-				Value:  fmt.Sprintf("%s %d", stats.Ranks.Tank.Rank, stats.Ranks.Tank.Division),
-				Inline: true,
-			})
+		platform := stats.PC
+		embed.Author = &discordgo.MessageEmbedAuthor{
+			Name: "PC Stats",
 		}
-		if roleIsRanked(stats.Ranks.DPS) {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   "DPS",
-				Value:  fmt.Sprintf("%s %d", stats.Ranks.DPS.Rank, stats.Ranks.DPS.Division),
-				Inline: true,
-			})
+
+		if !platform.HasRanks {
+			platform = stats.Console
+			embed.Author = &discordgo.MessageEmbedAuthor{
+				Name: "Console Stats",
+			}
 		}
-		if roleIsRanked(stats.Ranks.Support) {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   "Support",
-				Value:  fmt.Sprintf("%s %d", stats.Ranks.Support.Rank, stats.Ranks.Support.Division),
-				Inline: true,
-			})
+
+		if platform.HasRanks {
+			embed.Fields = getRanks(platform)
+		} else {
+			embed.Description += "\n\nThis player has no ranks."
 		}
 
 		embed.Description = stats.Profile.Title
-		if len(fields) == 0 {
-			embed.Description += "\n\nThe player doesn't have any ranks."
-		}
 	}
-
-	embed.Fields = fields
 
 	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 		Content: &globals.Empty,
@@ -187,4 +177,32 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 func roleIsRanked(rank data.Rank) bool {
 	return rank.Rank != "" && rank.Division != 0
+}
+
+func getRanks(platform data.Platform) []*discordgo.MessageEmbedField {
+	fields := []*discordgo.MessageEmbedField{}
+
+	if roleIsRanked(platform.Ranks.Tank) {
+		fields = append(fields, &discordgo.MessageEmbedField{
+			Name:   "Tank",
+			Value:  fmt.Sprintf("%s %d", platform.Ranks.Tank.Rank, platform.Ranks.Tank.Division),
+			Inline: true,
+		})
+	}
+	if roleIsRanked(platform.Ranks.DPS) {
+		fields = append(fields, &discordgo.MessageEmbedField{
+			Name:   "DPS",
+			Value:  fmt.Sprintf("%s %d", platform.Ranks.DPS.Rank, platform.Ranks.DPS.Division),
+			Inline: true,
+		})
+	}
+	if roleIsRanked(platform.Ranks.Support) {
+		fields = append(fields, &discordgo.MessageEmbedField{
+			Name:   "Support",
+			Value:  fmt.Sprintf("%s %d", platform.Ranks.Support.Rank, platform.Ranks.Support.Division),
+			Inline: true,
+		})
+	}
+
+	return fields
 }
