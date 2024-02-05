@@ -131,6 +131,8 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	embed.URL = stats.Profile.URL
 	embed.Thumbnail = &discordgo.MessageEmbedThumbnail{URL: stats.Profile.ProfilePicture}
 
+	var isConsole bool
+
 	if stats.Profile.IsPrivate {
 		embed.Description = stats.Profile.Title + "\n\n*This player's profile is private.*"
 		s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
@@ -152,21 +154,50 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			embed.Author = &discordgo.MessageEmbedAuthor{
 				Name: "Console Stats",
 			}
+			isConsole = true
 		}
+
+		embed.Description = stats.Profile.Title
 
 		if platform.HasRanks {
 			embed.Fields = getRanks(platform)
 		} else {
-			embed.Description += "\n\nThis player has no ranks."
+			embed.Description += "\n\nThis player has no ranks on this platform."
 		}
-
-		embed.Description = stats.Profile.Title
 	}
 
 	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 		Content: &globals.Empty,
 		Embeds: &[]*discordgo.MessageEmbed{
 			embed,
+		},
+		Components: &[]discordgo.MessageComponent{
+			discordgo.ActionsRow{
+				Components: []discordgo.MessageComponent{
+					discordgo.SelectMenu{
+						CustomID:    "platform",
+						Placeholder: "Select platform",
+						Options: []discordgo.SelectMenuOption{
+							{
+								Label: "PC",
+								Value: i.Member.User.ID + ":" + tag + ":pc",
+								Emoji: discordgo.ComponentEmoji{
+									Name: "⌨️",
+								},
+								Default: !isConsole,
+							},
+							{
+								Label: "Console",
+								Value: i.Member.User.ID + ":" + tag + ":console",
+								Emoji: discordgo.ComponentEmoji{
+									Name: "🎮",
+								},
+								Default: isConsole,
+							},
+						},
+					},
+				},
+			},
 		},
 	})
 
