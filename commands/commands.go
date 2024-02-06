@@ -138,17 +138,20 @@ func InteractionCreateListener(s *discordgo.Session, i *discordgo.InteractionCre
 				var platform data.Platform
 				if platformString == "pc" {
 					platform = stats.PC
+					embed.Author = &discordgo.MessageEmbedAuthor{
+						Name: "PC Stats",
+					}
 				} else {
 					platform = stats.Console
+					embed.Author = &discordgo.MessageEmbedAuthor{
+						Name: "Console Stats",
+					}
 					isConsole = true
-				}
-
-				embed.Author = &discordgo.MessageEmbedAuthor{
-					Name: "PC Stats",
 				}
 
 				embed.Description = stats.Profile.Title
 
+				// FIX, I HAVE NO RANKS AND I STILL GET THE RANKS EXCEPTION!!! BUG IN GOVERWATCH
 				if platform.HasRanks {
 					embed.Fields = getRanks(platform)
 				} else {
