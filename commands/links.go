@@ -71,9 +71,9 @@ func linksCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 							Emoji: discordgo.ComponentEmoji{
 								Name: "🌍",
 							},
-							Label: "Website (Coming eventually)",
+							Label: "Website",
 							Style: discordgo.LinkButton,
-							URL:   globals.DiscordInvite,
+							URL:   globals.Website,
 						},
 						discordgo.Button{
 							Emoji: discordgo.ComponentEmoji{
