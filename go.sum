@@ -44,6 +44,8 @@ github.com/mattishere/goverwatch v0.0.0-20240204214650-ea57b27a9871 h1:4DKu7PmgB
 github.com/mattishere/goverwatch v0.0.0-20240204214650-ea57b27a9871/go.mod h1:FTiuBa9lI7qb9YNHgoMUyp4Zx2N6T05fUK+8HrK9EH8=
 github.com/mattishere/goverwatch v0.0.0-20240206164222-dd9ecbe35b9f h1:BsIo0MNZtBrQUmRz44UVdIjrRb21579zvmJrFjPzp0A=
 github.com/mattishere/goverwatch v0.0.0-20240206164222-dd9ecbe35b9f/go.mod h1:FTiuBa9lI7qb9YNHgoMUyp4Zx2N6T05fUK+8HrK9EH8=
+github.com/mattishere/goverwatch v0.0.0-20240214214311-32899da572dd h1:m+Gu0r9kMXbiiF6WhCl5ZfbyMJqA541DHupOLi8gZqI=
+github.com/mattishere/goverwatch v0.0.0-20240214214311-32899da572dd/go.mod h1:FTiuBa9lI7qb9YNHgoMUyp4Zx2N6T05fUK+8HrK9EH8=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d h1:hrujxIzL1woJ7AwssoOcM/tq5JjjG2yYOc8odClEiXA=

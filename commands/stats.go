@@ -102,6 +102,7 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 					embed,
 				},
 			})
+			notifs.Error(err.Error())
 			return
 		}
 		if !stats.Profile.Exists {
@@ -207,7 +208,7 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 }
 
 func roleIsRanked(rank data.Rank) bool {
-	return rank.Rank != "" && rank.Division != 0
+	return rank.Rank != ""
 }
 
 func getRanks(platform data.Platform) []*discordgo.MessageEmbedField {
@@ -231,6 +232,13 @@ func getRanks(platform data.Platform) []*discordgo.MessageEmbedField {
 		fields = append(fields, &discordgo.MessageEmbedField{
 			Name:   "Support",
 			Value:  fmt.Sprintf("%s %d", platform.Ranks.Support.Rank, platform.Ranks.Support.Division),
+			Inline: true,
+		})
+	}
+	if roleIsRanked(platform.Ranks.OpenQueue) {
+		fields = append(fields, &discordgo.MessageEmbedField{
+			Name:   "Open Queue",
+			Value:  fmt.Sprintf("%s %d", platform.Ranks.OpenQueue.Rank, platform.Ranks.OpenQueue.Division),
 			Inline: true,
 		})
 	}

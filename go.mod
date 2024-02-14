@@ -5,7 +5,7 @@ go 1.21.0
 require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/joho/godotenv v1.5.1
-	github.com/mattishere/goverwatch v0.0.0-20240206164222-dd9ecbe35b9f
+	github.com/mattishere/goverwatch v0.0.0-20240214214311-32899da572dd
 )
 
 require (
