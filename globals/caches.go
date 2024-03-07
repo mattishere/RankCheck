@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	Cooldowns  = cache.NewCache(15)   // 15 seconds
+	Cooldowns  = cache.NewCache(10)   // 10 seconds
 	StatsCache = cache.NewCache(3600) // 1 hour
 )
 

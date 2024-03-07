@@ -5,6 +5,9 @@ import (
 	"RankCheck/globals"
 	"RankCheck/notifs"
 	"fmt"
+	"os"
+	"strconv"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/mattishere/goverwatch"
@@ -57,6 +60,20 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				Flags: discordgo.MessageFlagsEphemeral,
 			},
 		})
+
+		timeoutStr := os.Getenv("COOLDOWN_MESSAGE_TIMEOUT")
+		timeout, err := strconv.Atoi(timeoutStr)
+		if err != nil {
+			timeout = 10
+		}
+
+		time.AfterFunc(time.Duration(timeout)*time.Second, func() {
+			err := s.InteractionResponseDelete(i.Interaction)
+			if err != nil {
+				notifs.Error("Error deleting message: " + err.Error())
+			}
+		})
+
 		return
 	}
 
@@ -119,6 +136,19 @@ func statsCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 			if err != nil {
 				notifs.Error("Error editing response: " + err.Error())
+			} else {
+				timeoutStr := os.Getenv("NOT_FOUND_TIMEOUT")
+				timeout, err := strconv.Atoi(timeoutStr)
+				if err != nil {
+					timeout = 5
+				}
+
+				time.AfterFunc(time.Duration(timeout)*time.Second, func() {
+					err := s.InteractionResponseDelete(i.Interaction)
+					if err != nil {
+						notifs.Error("Error deleting message: " + err.Error())
+					}
+				})
 			}
 
 			return
